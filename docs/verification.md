@@ -1,0 +1,20 @@
+# Verification — 14 October 2026
+
+Final target: `E:\study\Projecrts\gaze detctions\gaze_keyboard_v2`.
+Original `my_code` was used only for reads and sound copies. New files were prepared in the authorized output workspace and installed in the requested new project. No remote push was performed.
+
+Verified runtime: Python 3.12.14 x64 in project `.venv`; MediaPipe 0.10.21 Tasks API, NumPy 1.26.4, OpenCV contrib 4.11.0.86, PySide6 6.10.2. All installed dependencies are pinned in requirements.txt. The model is installed locally; SHA256 is `64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff`.
+
+Completed checks:
+
+- **44 automated headless control tests passed**, with simulated landmarks and timestamps. Coverage includes aspect-correct normalization, degenerate/non-finite input, robust calibration and rejection, signed/mirrored mapping, dead zone, transient noise, hysteresis, sensitivity ordering, initial/repeat timing, full keyboard reachability, single/double blink cycles, normal single blink in double mode, prolonged closure, cooldown, missing reopening, tracking loss, target changes, startup closed eyes, short blinks, interval expiration, pause reset, stale timestamps, dwell reset/latch/rearming and settings validation/persistence.
+- Offscreen Qt integration passed: blink and dwell typing through the UI controller, eye-closure navigation suppression, face loss and target changes, gaze-selection of Resume from paused mode, dwell pause staying paused until a fresh focus change, case, text insertion/backspace/newline, Copy, Cancel/Confirm Clear, stale result rejection, timed six-step calibration, settings rendering and a 100-frame mailbox coalescing check. The installed application entry point was launched in simulation and closed through Qt with exit code 0.
+- Interface snapshots were rendered and visually inspected at 1120×860 and minimum 900×800, including preview, calibration and pause states. Initial clipping and missing restricted-session fonts were fixed and rerendered. The settings panel was also rendered. Typing keys are hidden during guided calibration. High-DPI behavior remains a manual check.
+- All 38 reused MP3 assets loaded/decoded in Qt, with durations approximately 648–1440 ms. Playback audibility was not assessed. Original local WAV effects were generated; no network TTS is used.
+- Local Face Landmarker creation and VIDEO inference on three blank RGB frames passed with no face. This verifies model/API compatibility and no-face behavior, not recognition accuracy. Inference succeeded under restricted network access. The 0.10.35 trial exposed a telemetry attempt, so the final environment uses 0.10.21 (see model.md).
+- Capture-worker verification passed with fake devices plus the real local model: camera unavailable, repeated frame-read failure, blank input/no face, debug preview, cooperative interruption, camera release and completed worker shutdown. No physical webcam was used in these checks.
+- Syntax compilation and `pip check` passed; there are no reported broken dependency requirements.
+
+Remaining checks: use [the manual webcam checklist](manual_checklist.md) for physical camera startup/disconnect/reconnect, live calibration, real left/right orientation, natural vs intentional blinks, face loss/recovery, hands-free control, sound audibility, high-DPI resizing and real-driver shutdown. Live gaze accuracy, false-selection rate, typing speed and clinical suitability have **not** been measured.
+
+Known limitations: first setup and Settings/Reconnect can require mouse/keyboard or a helper; essential Pause/Resume/Calibrate become eye reachable after calibration. Up/down calibration may reject small or unstable ranges. Hardware capture read calls can block inside an OS driver and delay cooperative shutdown. The bundled virtual environment depends on its base Python executable remaining available. Telemetry-free behavior is not established by a packet-capture audit; the final observed restricted-network inference produced no Clearcut message.

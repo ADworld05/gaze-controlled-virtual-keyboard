@@ -1,0 +1,23 @@
+# Python environments and generated files
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.log
+*.download
+.local/
+work/
+.env
+.env.*
+# Local copies of earlier UI versions
+ui_redesign/
+# Downloaded/generated model; recreate with tools/setup_assets.py
+assets/models/*.task
+assets/models/SHA256.txt
+# Editor and operating system metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

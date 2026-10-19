@@ -1,0 +1,7 @@
+# Direct application dependencies. Use Python 3.12 (64-bit).
+# MediaPipe supplies its own additional dependencies.
+# Install only this OpenCV distribution; do not also install opencv-python.
+numpy==1.26.4
+opencv-contrib-python==4.11.0.86
+mediapipe==0.10.21
+PySide6==6.10.2
